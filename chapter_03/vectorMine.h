@@ -1,6 +1,9 @@
 #ifndef vectorMine_H
 #define vectorMine_H
 
+#include <iostream>
+using std::cout; using std::endl;
+
 template <typename Object>
 class vectorMine {
 public:
@@ -13,10 +16,7 @@ public:
     vectorMine (const vectorMine & rhs) 
         : objects(NULL) {
 
-        //using overload operator
-        //******************* ??? *******************
         operator=(rhs);
-        //******************* ??? *******************
     }
 
     ~vectorMine () {
@@ -44,7 +44,7 @@ public:
     }
 
     void reserve(int newCapacity) {
-        if(newCapacity > capacity())
+        if(newCapacity < theSize)
             return;
 
         Object *old = objects;
@@ -72,7 +72,7 @@ public:
             return objects[index];
         else {
             cout << "Out of Bounds !!!" << endl;
-            return objecs[0];
+            return objects[0];
         }
     }
 
@@ -95,11 +95,12 @@ public:
     }
 
     void popBack() {
+        
         theSize--;
     }
 
     const Object & back() {
-        return objects[size() - 1];
+        return objects[theSize - 1];
     }
 
     typedef Object* iterator;
@@ -114,50 +115,33 @@ public:
     }
 
     iterator end() {
-        return &objects[size()];
+        return &objects[theSize];
     }
 
     const const_iterator end() const {
-        return &objects[size()];
+        return &objects[theSize];
     }
 
     iterator insert(iterator pos, const Object & x) {
         ++theSize;
         if(theSize > theCapacity)
             theCapacity = theSize;
-        Object* iter = objects;
-        Object* oldArray = objects;
-        objects = new Object[theCapacity];
-        int i = 0;
-        while(iter != pos) {
-            objects[i] = oldArray[i];
-            i++;
-            iter++;
-        }
-        objects[i] = x;
-        int j = i;
-        int insertPos = i;
-        i++;
-        for(; i < theSize; i++, j++) 
-            objects[i] = oldArray[j];
-        delete [] oldArray;
-        return &objects[insertPos];
+        for(iterator iter = end(); iter != pos; --iter)
+            *iter = *(iter-1);
+        *pos = x;
+        return pos;
     }
 
     iterator erase(iterator pos) {
-        theSize--;
-        Object* iter = objects;
-        int i = 0;
-        while(iter != pos) {
-            i++;
-            iter++;
+        if(pos == end()) {
+            cout << "out of bound!" << endl;
+            return pos;
         }
-        Object* result = &objects[i];
-        for(; i < size(); i++) {
-            cout << "i+1:" << i+1<< endl;
-            objects[i] = objects[i+1];
-        }
-        return result;
+
+        --theSize;
+        for(iterator iter = pos; iter != end(); ++iter)
+            *(iter) = *(iter+1);
+        return pos;
     }
 
     enum { SPARE_CAPACITY = 16 };

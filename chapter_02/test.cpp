@@ -4,7 +4,7 @@
 #include <vector>
 
 #define random(x) (rand()%100)
-using namespace std;
+using std::cout; using std::endl;
 
 int main() {
     vector<int> arr(20);
@@ -14,7 +14,7 @@ int main() {
     searchMaxSub s = searchMaxSub();
     int maxSub=s.findMaxSub4(arr);
     for(int i=0;i<arr.size();i++)
-        printf("%d,",arr[i]);
+        cout << arr[i] << ", ";
     cout << "\nmax subsequence is: " << maxSub << endl;
 
     return 0;

@@ -1,6 +1,5 @@
 #include "searchMaxSub.h"
 #include <vector>
-using namespace std;
 
 //O(N^3)
 int searchMaxSub::findMaxSub1(vector<int> & arr) const {

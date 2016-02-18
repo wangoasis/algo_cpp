@@ -1,7 +1,7 @@
 #ifndef searchMaxSub_H
 #define searchMaxSub_H
 #include<vector>
-using namespace std;
+using std::vector;
 
 //contains four methods to find maximum contiguous subsequence sum.
 class searchMaxSub {
